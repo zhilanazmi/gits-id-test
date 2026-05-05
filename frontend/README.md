@@ -1,59 +1,156 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Book Catalog Web - Frontend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Web client untuk Digital Book Catalog Management Platform. Dibangun dengan Laravel 12 Blade dan template WowDash Tailwind Admin.
 
-## About Laravel
+## Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Framework:** Laravel 12.x (Blade Templating)
+- **CSS Framework:** TailwindCSS (via WowDash template)
+- **HTTP Client:** Laravel Http Facade (Guzzle)
+- **UI Template:** WowDash Tailwind Admin
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP >= 8.2
+- Composer
+- Backend API harus berjalan di `http://localhost:8000`
 
-## Learning Laravel
+## Setup & Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 1. Install Dependencies
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+cd frontend
+composer install
+```
 
-## Laravel Sponsors
+### 2. Environment Configuration
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-### Premium Partners
+Edit file `.env` jika perlu mengubah URL API backend:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```env
+API_BASE_URL=http://localhost:8000/api
+APP_URL=http://localhost:8080
+```
 
-## Contributing
+### 3. Start Development Server
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+php artisan serve --port=8080
+```
 
-## Code of Conduct
+Web client akan berjalan di: `http://localhost:8080`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+> **Penting:** Pastikan backend API sudah berjalan di `http://localhost:8000` sebelum mengaksess frontend.
 
-## Security Vulnerabilities
+## Cara Menggunakan
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 1. Pastikan Backend Berjalan
 
-## License
+```bash
+cd ../backend
+php artisan serve --port=8000
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 2. Jalankan Frontend
+
+```bash
+cd ../frontend
+php artisan serve --port=8080
+```
+
+### 3. Akses Aplikasi
+
+Buka browser dan akses: `http://localhost:8080`
+
+### 4. Login
+
+Gunakan kredensial demo:
+
+- admin@example.com | password123
+- user@example.com | password123
+
+## Halaman yang Tersedia
+
+- Login | `/login` | Form login
+- Register | `/register` | Form registrasi user baru
+- Dashboard | `/dashboard` | Overview statistik (jumlah buku, penulis, penerbit)
+- Authors List | `/authors` | Tabel daftar penulis + search + pagination
+- Author Form | `/authors/create`, `/authors/{id}/edit` | Form tambah/edit penulis
+- Books List | `/books` | Tabel daftar buku + filter + pagination
+- Book Form | `/books/create`, `/books/{id}/edit` | Form tambah/edit buku
+- Publishers List | `/publishers` | Tabel daftar penerbit + search + pagination
+- Publisher Form | `/publishers/create`, `/publishers/{id}/edit` | Form tambah/edit penerbit
+
+
+
+## Struktur Project
+
+```
+frontend/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── AuthController.php        # Login/Register/Logout
+│   │   │   ├── DashboardController.php   # Dashboard stats
+│   │   │   ├── AuthorController.php      # CRUD Authors
+│   │   │   ├── BookController.php        # CRUD Books
+│   │   │   └── PublisherController.php   # CRUD Publishers
+│   │   └── Middleware/
+│   │       ├── AuthenticateApi.php       # Check JWT in session
+│   │       └── RedirectIfAuthenticated.php
+│   ├── Providers/
+│   │   └── AppServiceProvider.php        # Register ApiService
+│   └── Services/
+│       └── ApiService.php                # HTTP client wrapper
+├── resources/views/
+│   ├── layouts/
+│   │   ├── app.blade.php                 # Main dashboard layout
+│   │   └── auth.blade.php               # Auth pages layout
+│   ├── partials/
+│   │   ├── sidebar.blade.php            # Sidebar navigation
+│   │   ├── header.blade.php             # Top navbar
+│   │   └── footer.blade.php
+│   ├── auth/
+│   │   ├── login.blade.php
+│   │   └── register.blade.php
+│   ├── dashboard/
+│   │   └── index.blade.php
+│   ├── authors/
+│   │   ├── index.blade.php              # List + pagination
+│   │   └── form.blade.php              # Create/Edit form
+│   ├── books/
+│   │   ├── index.blade.php
+│   │   └── form.blade.php
+│   └── publishers/
+│       ├── index.blade.php
+│       └── form.blade.php
+├── public/assets/                        # WowDash template assets
+│   ├── css/
+│   ├── js/
+│   ├── images/
+│   ├── fonts/
+│   └── webfonts/
+├── routes/web.php
+└── .env.example
+```
+
+
+## Troubleshooting
+
+### "Failed to fetch" errors
+- Pastikan backend API berjalan di `http://localhost:8000`
+- Cek `API_BASE_URL` di file `.env`
+
+### Session expired / redirect ke login
+- JWT token berlaku 60 menit
+- Login ulang jika token sudah expired
+
+### Halaman blank / error 500
+- Jalankan `php artisan optimize:clear`
+- Cek file `storage/logs/laravel.log` untuk detail error
