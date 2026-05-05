@@ -14,7 +14,7 @@ class AuthorController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Author::query();
+        $query = Author::withCount('books');
 
         // Search by name
         if ($request->has('search')) {

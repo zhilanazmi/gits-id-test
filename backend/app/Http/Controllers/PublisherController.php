@@ -14,7 +14,7 @@ class PublisherController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Publisher::query();
+        $query = Publisher::withCount('books');
 
         // Search by name
         if ($request->has('search')) {
